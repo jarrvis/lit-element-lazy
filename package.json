@@ -1,0 +1,36 @@
+{
+  "name": "lit-element-lazy",
+  "version": "1.0.0",
+  "description": "Decorator for Lit Element to call annotated method when component is scrolled to viewport.",
+  "main": "dist/index.js",
+  "module": "dist/esm/index.js",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json"
+  },
+  "dependencies": {
+    "lit-element": "2.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.4.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jarrvis/lit-element-lazy.git"
+  },
+  "author": "Michał Kaliszewski",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jarrvis/lit-element-lazy/issues"
+  },
+  "homepage": "https://github.com/jarrvis/lit-element-lazy",
+  "keywords": [
+    "lit element",
+    "decorator",
+    "scroll",
+    "lazy loading",
+    "IntersectionObserver"
+  ]
+}
