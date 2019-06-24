@@ -24,7 +24,7 @@ It's very simple: you just need to anotate your method with `@lazy` and it will 
 ```javascript
 
 import { LitElement, html, property, customElement } from 'lit-element';
-import { lazy } from './index';
+import { lazy } from 'lit-element-lazy';
 
 @customElement('simple-greeting')
 export class SimpleGreeting extends LitElement {
@@ -58,7 +58,7 @@ Basically you can think of every action that you would normally do with the load
 Following component
 ```javascript
 import { LitElement, html, property, customElement } from 'lit-element';
-import { lazy } from './index';
+import { lazy } from 'lit-element-lazy';
 
 @customElement('test-lit-element-lazy')
 export class TestLitElementlazy extends LitElement{
@@ -79,7 +79,7 @@ export class TestLitElementlazy extends LitElement{
     
 
     render() {
-        return html`<p>Hello, ${this.name}!</p>`;
+        return html`<p>${this.name}!</p>`;
     }
 }
 ```
