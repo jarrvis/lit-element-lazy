@@ -1,72 +1,53 @@
-# stencil-lazy
+# lit-element-lazy
 
 ## What is it?
-`stencil-lazy` is a [Stencil](https://stenciljs.com/) `@Lazy` decorator that allows you to call component method as the user scrolls component into the viewport. On supported browsers (Chrome and chrome based browsers, Firefox and Edge) `stencil-lazy` uses [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) to accomplish this functionality. For Safari and IE it simply falls back to setTimeout unless you use polyfill.
+`lit-element-lazy` is a `@lazy` decorator that allows you to call component method as the user scrolls component into the viewport. On supported browsers (Chrome and chrome based browsers, Firefox and Edge) `lit-element-lazy` uses [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) to accomplish this functionality. For Safari and IE it simply falls back to setTimeout unless you use polyfill.
 
 ## Polyfilling
-If you want `stencil-lazy` to work everywhere (also on IE and Safari) use polyfill. You can pop this script tag:
+If you want `lit-element-lazy` to work everywhere (also on IE and Safari) use polyfill. You can pop this script tag:
 ```
 <script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"></script>
 ```
 in index.html and that's it:)
-Polyfill is not included in `stencil-lazy` not to increase the bundle size and to leave the decision to you: either you go with setTimeout fallback or if you prefer, go with polyfill
+Polyfill is not included in `lit-element-lazy` not to increase the bundle size and to leave the decision to you: either you go with setTimeout fallback or if you prefer, go with polyfill
 
 ## Installing
 
-In your Stencil project, add `stencil-lazy` to your package.json:
+In your lit-element project, add `lit-element-lazy` to your package.json:
 ```
-npm i stencil-lazy
+npm i lit-element-lazy
 ```
 
 ## How to use it?
-It's very simple: you just need to anotate your method with `@Lazy` and it will be called when host component is scrolled to viewport. Method will be called once - the first time you scroll to component
+It's very simple: you just need to anotate your method with `@lazy` and it will be called when host component is scrolled to viewport. Method will be called once - the first time you scroll to component
 
 ```javascript
 
-import { Component } from '@stencil/core';
-import { Lazy } from 'stencil-lazy';
+import { LitElement, html, property, customElement } from 'lit-element';
+import { lazy } from './index';
 
-@Component({ tag: 'lazy-component', shadow: true })
-export class LazyComponent {
+@customElement('simple-greeting')
+export class SimpleGreeting extends LitElement {
+  @property() name = 'World';
 
-  @Lazy()
-  someMethod() { console.log("someMethod was called because user scrolled to LazyComponent"); }
+  @lazy()
+  lazyCallback() { console.log("lazyCallback was called because user scrolled to lazyComponent"); }
 
-  render() { return <div>Hello, World!</div>; }
-}
-```
-
-It may sometimes happen that you would like monitor for some HTMLElement that you render in component. This is also possible the API then is as follows:
-
-```javascript
-
-import { Component } from '@stencil/core';
-import { registerLazy } from 'stencil-lazy';
-
-@Component({ tag: 'lazy-component', shadow: true })
-export class LazyComponent {
-
-  someMethod() { console.log("someMethod was called because user scrolled to LazyComponent"); }
-
-  render() { 
-    return (
-            <div 
-              ref={divEl => registerLazy(this, divEl, () => this.someMethod())}>
-                Hello, World!
-            </div>;
-      ) 
+  render() {
+    return html`<p>Hello, ${this.name}!</p>`;
+  }
 }
 ```
 
 ## Margin
-You can also set margin for `@Lazy`. It determines how far from the viewport lazy loading starts. Can have values similar to the CSS margin property, e.g. "10px 20px 30px 40px" (top, right, bottom, left). The values can be percentages.
+You can also set margin for `@lazy`. It determines how far from the viewport lazy loading starts. Can have values similar to the CSS margin property, e.g. "10px 20px 30px 40px" (top, right, bottom, left). The values can be percentages.
 ```javascript
-  @Lazy({ margin: "50%" })
-  someMethod() { console.log("someMethod was called because user scrolled to margin of LazyComponent extended by 50%"); }
+  @lazy({ margin: "50%" })
+  someMethod() { console.log("someMethod was called because user scrolled to margin of lazyComponent extended by 50%"); }
 ```
 or if you want to have it dynamic (as web component `@Prop`)
 ```javascript
-  @LazyMargin() @Prop() margin?: string;
+  @lazyMargin() @property() margin?: string;
 ```
 All web components here have optional `margin` prop.
 
@@ -76,17 +57,14 @@ Basically you can think of every action that you would normally do with the load
 ## Example
 Following component
 ```javascript
-import { Component, State, Element } from '@stencil/core';
-import { Lazy } from 'stencil-lazy';
+import { LitElement, html, property, customElement } from 'lit-element';
+import { lazy } from './index';
 
+@customElement('test-lit-element-lazy')
+export class TestLitElementlazy extends LitElement{
+    @property() name: string;
 
-@Component({
-    tag: 'test-stencil-lazy'
-})
-export class TestStencilLazy {
-    @State() name: string;
-
-    @Lazy()
+    @lazy()
     getName() {
         console.log("fetching user data...");
         setTimeout(() => {
@@ -101,9 +79,7 @@ export class TestStencilLazy {
     
 
     render() {
-        return (
-            <div><p>Hello {this.name}</p></div>
-        );
+        return html`<p>Hello, ${this.name}!</p>`;
     }
 }
 ```
@@ -111,7 +87,7 @@ export class TestStencilLazy {
 ```html
 <body>
     <div style="height: 1000px"></div>
-    <test-stencil-lazy></test-stencil-lazy>
+    <test-lit-element-lazy></test-lit-element-lazy>
 </body>
 ```
 gives

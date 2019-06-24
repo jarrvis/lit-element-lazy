@@ -1,6 +1,6 @@
 import { LitElement } from "lit-element";
 
-  declare interface LazyOptions {
+  declare interface lazyOptions {
     margin?: string;
   }
   
@@ -10,20 +10,20 @@ import { LitElement } from "lit-element";
  * @param margin Optionally provide the padding (rootMargin) for IntersectionObserver. Determines how far from the viewport lazy loading starts. Can have values similar to the CSS margin property, e.g. "10px 20px 30px 40px" (top, right, bottom, left). The values can be percentages 
  * @example
 ```
-    @Lazy()
+    @lazy()
     lazyCallback() {
     // this will run when element is inside the viewport.
     }
 ```
 * @example
 ```
-    @Lazy({margin: "100px"})
+    @lazy({margin: "100px"})
     lazyCallback() {
     // this will run when element is 100px from the viewport.
     }
 ```
 */
-export function Lazy(opt?: LazyOptions) {
+export function lazy(opt?: lazyOptions) {
     return (proto: LitElement, methodName: string): any  => {
 
         const { connectedCallback } = proto;
@@ -50,7 +50,7 @@ export function registerLazy(
     const margin = getValidMargin(marginProp);
     if (!margin) {
       throw new Error(
-        "@Lazy() decorator's optional parameter 'margin' is given but not valid. It should be a string like CSS margin property, e.g. '10px 20px 30px 40px'(top, right, bottom, left) or just '10px' (all). The values can be percentages "
+        "@lazy() decorator's optional parameter 'margin' is given but not valid. It should be a string like CSS margin property, e.g. '10px 20px 30px 40px'(top, right, bottom, left) or just '10px' (all). The values can be percentages "
       );
     }
     let io = new IntersectionObserver(
